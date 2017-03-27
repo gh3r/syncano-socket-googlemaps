@@ -107,7 +107,7 @@ endpoints:
     parameters:
       location:
         type: string
-        description: Geopoint coordinates
+        description: Geopoint coordinates for requesting timezone
         example: "38.4223658,-123.0843845"
     response:
       mimetype: application/json
@@ -127,16 +127,16 @@ endpoints:
           exit_code: 400
           description: Failed
   getDirections:
-    description:
+    description: Returns calculated directions between provided starting point and destination
     file: scripts/directions.js
     parameters:
       starting_point:
         type: string
-        description:
+        description: Geolocation of starting point for directions calculations
         example: "38.4223658,-123.0843845"
       destination:
         type: string
-        description:
+        description: Geolocation of destination point for directions calculations
         example: "38.4233658,-123.0213845"
     response:
       mimetype: application/json
@@ -148,12 +148,12 @@ endpoints:
           exit_code: 400
           description: Failed
   getElevation:
-    description:
+    description: Returns elevation for given locaction on surface of earh or ocean floor
     file: scripts/elevation.js
     parameters:
       location:
         type: string
-        description:
+        description: Geopoint coordinates for elevation details, separated by comma
         example: "41.8781136,-87.6297982"
     response:
       mimetype: application/json
@@ -179,12 +179,12 @@ endpoints:
           exit_code: 400
           description: Failed
   searchPlace:
-    description:
+    description: Find place based on search string
     file: scripts/searchPlace.js
     parameters:
       query:
         type: string
-        description:
+        description: Search string used to find given place
         example: "Burger King, Warsaw, Poland"
     response:
       mimetype: application/json
@@ -226,12 +226,12 @@ endpoints:
           exit_code: 400
           description: Failed
   nearbyPlaces:
-    description:
+    description: Returns list of nearby places based on location geopoints
     file: scripts/nearbyPlaces.js
     parameters:
       location:
         type: string
-        description:
+        description: Geopoint coordinates separated by comma
         example: "52.23010840000001,21.0026871"
     response:
       mimetype: application/json
