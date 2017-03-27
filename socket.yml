@@ -1,0 +1,244 @@
+name: googlemaps-api
+description: Syncano socket for google maps api integration
+
+endpoints:
+  getGeoLocation:
+    description: Returns geocode for given address
+    file: scripts/geocoding.js
+    parameters:
+      address:
+        type: string
+        description: "Address to convert into geographic coordinates"
+        example: "1600 Amphitheatre Parkway, Mountain View, CA"
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              lat: 37.4223658,
+              lng: -122.0843845
+            }
+        -
+          exit_code: 400
+          description: Failed
+  getReverseGeoLocation:
+    description: Returns human-readable addresses from given geocode
+    file: scripts/reverseGeocoding.js
+    parameters:
+      latitude:
+        type: string
+        description: "Geographic latitude of given location"
+        example: "37.4223658"
+      longitude:
+        type: string
+        description: "Geographic longitude of given location"
+        example: "-122.0843845"
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          examples: |
+            [
+              'Google Bldg 40, 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA',
+              '1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA',
+              'Mountain View, CA, USA',
+              'Mountain View, CA 94043, USA',
+              'Santa Clara County, CA, USA',
+              'San Jose-Sunnyvale-Santa Clara, CA, CA, USA',
+              'San Jose Metropolitan Area, CA, USA',
+              'California, USA',
+              'United States'
+            ]
+        -
+          exit_code: 400
+          description: Failed
+  getDistance:
+    description: Returns distance and time for given origin and destination
+    file: scripts/distance.js
+    parameters:
+      origin:
+        type: string
+        description: Origin human-readable address or geocode point location
+        example: "New York, NY, USA"
+      destination:
+        type: string
+        description: Description human-readable address or geocode point location
+        example: "38.4223658,-123.0843845"
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+               destination_addresses : [ 'Wright Hill Rd, Bodega Bay, CA 94923, USA' ],
+               origin_addresses : [ 'New York, NY, USA' ],
+               rows : [
+                  {
+                     elements : [
+                        {
+                           distance : {
+                              text : '4,724 km',
+                              value : 4724004
+                           },
+                           duration : {
+                              text : '1 day 19 hours',
+                              value : 155735
+                           },
+                           status : 'OK'
+                        }
+                     ]
+                  }
+               ],
+               status : 'OK'
+            }
+        -
+          exit_code: 400
+          description: Failed
+  getTimezone:
+    description: Returns name of timzone, time offset and daylight saving offset
+    file: scripts/timezone.js
+    parameters:
+      location:
+        type: string
+        description: Geopoint coordinates
+        example: "38.4223658,-123.0843845"
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              dstOffset: 3600,
+              rawOffset: -28800,
+              status: 'OK',
+              timeZoneId: 'America/Los_Angeles',
+              timeZoneName: 'Pacific Daylight Time'
+            }
+        -
+          exit_code: 400
+          description: Failed
+  getDirections:
+    description:
+    file: scripts/directions.js
+    parameters:
+      starting_point:
+        type: string
+        description:
+        example: "38.4223658,-123.0843845"
+      destination:
+        type: string
+        description:
+        example: "38.4233658,-123.0213845"
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+        -
+          exit_code: 400
+          description: Failed
+  getElevation:
+    description:
+    file: scripts/elevation.js
+    parameters:
+      location:
+        type: string
+        description:
+        example: "41.8781136,-87.6297982"
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              results: [
+                {
+                  elevation: 181.5143737792969,
+                  location: {
+                    lat: 41.8781136,
+                    lng: -87.6297982
+                  },
+                  resolution: 19.08790397644043
+                }
+              ],
+              status: 'OK'
+            }
+        -
+          exit_code: 400
+          description: Failed
+  searchPlace:
+    description:
+    file: scripts/searchPlace.js
+    parameters:
+      query:
+        type: string
+        description:
+        example: "Burger King, Warsaw, Poland"
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              formatted_address: 'ul. Złota 59, foodcourt w Złotych Tarasach, 00-120 Warszawa, Poland',
+              geometry:
+                {
+                  location: { lat: 52.23010840000001, lng: 21.0026871 },
+                  viewport: {
+                    northeast: { lat: 52.2317654802915, lng: 21.0035322802915 },
+                    southwest: { lat: 52.2290675197085, lng: 21.0008343197085 }
+                  }
+                },
+              icon: 'https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png',
+              id: 'ef34b5218fbb6781f428e9327a6fb735ac6cd831',
+              name: 'Burger King',
+              opening_hours: { open_now: true, weekday_text: [] },
+              photos:
+               [
+                 {
+                   height: 3024,
+                   html_attributions: [ '<a href="https://maps.google.com/maps/contrib/108746419156642598487/photos">Stefan Oppermann</a>' ],
+                   photo_reference: 'CoQBdwAAAMiT2v9Uia9HO6PW5y7P_HSM2HvD2soAc8F-gfymlSM6qQdIkdFBmOHwT2m6rqD2TiMyRRgmMJafpQEOZXCgk73E_GYO_jIi0nURlkZinR6IzI-1j40c33V5-EmpSEY0tJe5yrvlPicWnK3KllhLs2SkGXjjZu-D5rxhng5TDv_AEhAPLls6OrG0Oltvz9ccYyCHGhSwlrumDjhzesroz_kVOcMMFuBrig',
+                   width: 4032
+                 }
+               ],
+              place_id: 'ChIJ7ZSPpY3MHkcR8le-BC7VbHY',
+              price_level: 1,
+              rating: 3.9,
+              reference: 'CmRRAAAA5bNdvnKKyiE2goNfyckfQCZAwEKr_c-XRdP8YBgkaOZVkYndG53nchg1q9AW7hUIwi3i4oVw44RG-vZwkFu9V3YyXWzP8ehWeeiW3vh-IjzlJzq2P6IshZlMWKbka0AyEhAXFjHDIrsQvd-SAKUHQWEIGhSItjn6qK347flgT4Id6l9CMKOL6w',
+              types: [ 'restaurant', 'food', 'point_of_interest', 'establishment' ]
+            }
+        -
+          exit_code: 400
+          description: Failed
+  nearbyPlaces:
+    description:
+    file: scripts/nearbyPlaces.js
+    parameters:
+      location:
+        type: string
+        description:
+        example: "52.23010840000001,21.0026871"
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+        -
+          exit_code: 400
+          description: Failed
