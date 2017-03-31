@@ -1,5 +1,8 @@
 name: googlemaps-api
+version: 0.0.2
 description: Syncano socket for google maps api integration
+author:
+  name: Marcin Godlewski
 
 endpoints:
   getGeoLocation:
